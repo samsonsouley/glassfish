@@ -59,6 +59,7 @@ import org.jvnet.hk2.config.TransactionFailure;
 import org.jvnet.hk2.config.types.Property;
 
 import static com.sun.appserv.connectors.internal.api.ConnectorsUtil.deriveResourceName;
+import org.glassfish.config.support.TranslatedConfigView;
 
 /**
  * Handle deployment of resources defined by @MailSessionDefinition
@@ -309,7 +310,7 @@ public class MailSessionDeployer implements ResourceDeployer<MailSessionDescript
 
         @Override
         public String getValue() {
-            return value;
+            return TranslatedConfigView.expandApplicationValue(value);
         }
 
         @Override
@@ -390,7 +391,7 @@ public class MailSessionDeployer implements ResourceDeployer<MailSessionDescript
 
         @Override
         public String getHost() {
-            return desc.getHost();
+            return TranslatedConfigView.expandApplicationValue(desc.getHost());
         }
 
         @Override
@@ -400,7 +401,7 @@ public class MailSessionDeployer implements ResourceDeployer<MailSessionDescript
 
         @Override
         public String getUser() {
-            return desc.getUser();
+            return TranslatedConfigView.expandApplicationValue(desc.getUser());
         }
 
         @Override
@@ -410,7 +411,7 @@ public class MailSessionDeployer implements ResourceDeployer<MailSessionDescript
 
         @Override
         public String getFrom() {
-            return desc.getFrom();
+            return TranslatedConfigView.expandApplicationValue(desc.getFrom());
         }
 
         @Override

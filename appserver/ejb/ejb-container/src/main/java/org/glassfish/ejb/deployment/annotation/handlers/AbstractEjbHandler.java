@@ -48,6 +48,7 @@ import org.glassfish.apf.AnnotationInfo;
 import org.glassfish.apf.AnnotationProcessorException;
 import org.glassfish.apf.HandlerProcessingResult;
 import org.glassfish.apf.context.AnnotationContext;
+import org.glassfish.config.support.TranslatedConfigView;
 import org.glassfish.ejb.deployment.descriptor.DummyEjbDescriptor;
 import org.glassfish.ejb.deployment.descriptor.EjbBundleDescriptorImpl;
 import org.glassfish.ejb.deployment.descriptor.EjbDescriptor;
@@ -166,6 +167,8 @@ public abstract class AbstractEjbHandler extends AbstractHandler {
         String elementName = getAnnotatedName(annotation);
         if (elementName.isEmpty()) {
             elementName = ejbClass.getSimpleName();
+        }else{
+            elementName = TranslatedConfigView.expandApplicationValue(elementName);
         }
 
         EjbBundleDescriptorImpl currentBundle = ctx.getDescriptor();

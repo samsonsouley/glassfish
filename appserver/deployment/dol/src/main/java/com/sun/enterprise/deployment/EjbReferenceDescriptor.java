@@ -24,6 +24,7 @@ import org.glassfish.api.naming.SimpleJndiName;
 
 import static com.sun.enterprise.deployment.MethodDescriptor.EJB_LOCAL;
 import static com.sun.enterprise.deployment.MethodDescriptor.EJB_REMOTE;
+import org.glassfish.config.support.TranslatedConfigView;
 
 /**
  * An object representing a link to another ejb.
@@ -136,10 +137,7 @@ public final class EjbReferenceDescriptor extends EnvironmentProperty implements
      */
     @Override
     public String getLinkName() {
-        if (ejbDescriptor == null) {
-            return ejbLink;
-        }
-        if (ejbLink != null && !ejbLink.isEmpty()) {
+        if (ejbDescriptor == null || (ejbLink != null && !ejbLink.isEmpty())) {
             return ejbLink;
         }
         return ejbDescriptor.getName();
@@ -150,7 +148,7 @@ public final class EjbReferenceDescriptor extends EnvironmentProperty implements
      */
     @Override
     public void setLinkName(String linkName) {
-        ejbLink = linkName;
+        ejbLink = TranslatedConfigView.expandApplicationValue(linkName);
     }
 
     /**
@@ -199,6 +197,7 @@ public final class EjbReferenceDescriptor extends EnvironmentProperty implements
 
     @Override
     public void setLookupName(SimpleJndiName l) {
+        //The parametter in not a string
         lookupName = l;
     }
 

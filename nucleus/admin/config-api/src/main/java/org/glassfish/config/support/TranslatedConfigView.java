@@ -48,8 +48,16 @@ public class TranslatedConfigView implements ConfigView {
 
     private static final String ALIAS_TOKEN = "ALIAS";
     private static int MAX_SUBSTITUTION_DEPTH = 100;
+    private static final boolean SUBSTITUTION_DISABLED = Boolean.valueOf(System.getProperty("org.glassfish.substitution.disable", "false"));
 
     public static String expandValue(String value) {
+        return (String) getTranslatedValue(value);
+    }
+
+    public static String expandApplicationValue(String value) {
+        if (value == null || SUBSTITUTION_DISABLED) {
+            return value;
+        }
         return (String) getTranslatedValue(value);
     }
 

@@ -72,6 +72,7 @@ import org.jvnet.hk2.config.types.Property;
 import static java.util.logging.Level.FINEST;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
+import org.glassfish.config.support.TranslatedConfigView;
 
 
 /**
@@ -462,7 +463,7 @@ public class ConnectorConnectionPoolAdminServiceImpl extends ConnectorService {
                 result = envProp.getValue();
             }
         }
-        return result;
+        return TranslatedConfigView.expandApplicationValue(result);
     }
 
     private ResourcePrincipalDescriptor getDefaultResourcePrincipal( PoolInfo poolInfo,

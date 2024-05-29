@@ -312,7 +312,7 @@ public final class CombinedJavaConfigSystemPropertyListener implements PostConst
         if ( value.startsWith("=") ) {
             value = value.substring(1);
         }
-        value = TranslatedConfigView.getTranslatedValue(value).toString();
+        value = TranslatedConfigView.expandApplicationValue(value);
         return new String[] { name, value };
     }
 

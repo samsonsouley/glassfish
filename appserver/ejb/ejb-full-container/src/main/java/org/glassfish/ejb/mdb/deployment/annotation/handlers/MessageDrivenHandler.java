@@ -29,6 +29,7 @@ import org.glassfish.apf.AnnotationHandlerFor;
 import org.glassfish.apf.AnnotationInfo;
 import org.glassfish.apf.AnnotationProcessorException;
 import org.glassfish.apf.HandlerProcessingResult;
+import org.glassfish.config.support.TranslatedConfigView;
 import org.glassfish.ejb.deployment.descriptor.EjbBundleDescriptorImpl;
 import org.glassfish.ejb.deployment.descriptor.EjbDescriptor;
 import org.glassfish.ejb.deployment.descriptor.EjbMessageBeanDescriptor;
@@ -111,7 +112,7 @@ public class MessageDrivenHandler extends AbstractEjbHandler {
 
         for (ActivationConfigProperty acProp : mdAn.activationConfig()) {
             EnvironmentProperty envProp = new EnvironmentProperty(
-                    acProp.propertyName(), acProp.propertyValue(), "");
+                    acProp.propertyName(), TranslatedConfigView.expandApplicationValue(acProp.propertyValue()), "");
                                                 // with empty description
             // xml override
             if (ejbMsgBeanDesc.getActivationConfigValue(envProp.getName()) == null) {

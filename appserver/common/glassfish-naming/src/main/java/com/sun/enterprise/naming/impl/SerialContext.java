@@ -60,6 +60,7 @@ import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import static com.sun.enterprise.naming.util.LogFacade.logger;
+import org.glassfish.config.support.TranslatedConfigView;
 
 /**
  * This context provides access to the app server naming service. This
@@ -809,7 +810,7 @@ public final class SerialContext implements Context {
                 // a new instance with its own independent environment.
                 return new SerialContext(myName, myEnv, services);
             }
-
+            name = TranslatedConfigView.expandApplicationValue(name);
             name = getRelativeName(name);
 
             if (isjavaURL(name)) {

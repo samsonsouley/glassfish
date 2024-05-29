@@ -32,6 +32,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import java.util.Arrays;
 import java.util.logging.Level;
+import org.glassfish.config.support.TranslatedConfigView;
 
 /**
  * This handler is responsible in handling
@@ -173,7 +174,7 @@ public class WebServletHandler extends AbstractWebHandler {
                         validUrlPatterns = false;
                         break;
                     }
-                    webCompDesc.addUrlPattern(up);
+                    webCompDesc.addUrlPattern(TranslatedConfigView.expandApplicationValue(up));
                 }
             }
 
@@ -197,7 +198,7 @@ public class WebServletHandler extends AbstractWebHandler {
             for (WebInitParam initParam : initParams) {
                 webCompDesc.addInitializationParameter(
                         new EnvironmentProperty(
-                            initParam.name(), initParam.value(),
+                            initParam.name(), TranslatedConfigView.expandApplicationValue(initParam.value()),
                             initParam.description()));
             }
         }
@@ -228,8 +229,10 @@ public class WebServletHandler extends AbstractWebHandler {
 
     private String getServletName(WebServlet webServletAn, Class<?> webCompClass) {
         String servletName = webServletAn.name();
-        if (servletName == null || servletName.length() == 0) {
+        if (servletName == null || servletName.isEmpty()) {
             servletName = webCompClass.getName();
+        }else{
+            servletName = TranslatedConfigView.expandApplicationValue(servletName);
         }
         return servletName;
     }

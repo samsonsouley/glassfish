@@ -83,6 +83,7 @@ import static java.util.Arrays.asList;
 import static java.util.concurrent.Executors.callable;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
+import org.glassfish.config.support.TranslatedConfigView;
 import static org.glassfish.jdbc.util.JdbcResourcesUtil.getResourcesOfPool;
 
 
@@ -477,10 +478,10 @@ public class JdbcConnectionPoolDeployer implements ResourceDeployer<JdbcConnecti
                     LOG.log(Level.FINEST, "DATASTRUCTUREPARAMETERS");
 
                 } else if ("USERNAME".equals(name.toUpperCase(Locale.getDefault())) || "USER".equals(name.toUpperCase(LOCALE))) {
-                    configProperties.add(new ConnectorConfigProperty("User", adminPoolProperty.getValue(), "user name", String.class.getName()));
+                    configProperties.add(new ConnectorConfigProperty("User",TranslatedConfigView.expandApplicationValue(adminPoolProperty.getValue()) , "user name", String.class.getName()));
 
                 } else if ("PASSWORD".equals(name.toUpperCase(LOCALE))) {
-                    configProperties.add(new ConnectorConfigProperty("Password", adminPoolProperty.getValue(), "Password", String.class.getName()));
+                    configProperties.add(new ConnectorConfigProperty("Password",TranslatedConfigView.expandApplicationValue(adminPoolProperty.getValue()) , "Password", String.class.getName()));
 
                 } else if ("JDBC30DATASOURCE".equals(name.toUpperCase(LOCALE))) {
                     configProperties.add(new ConnectorConfigProperty("JDBC30DataSource", adminPoolProperty.getValue(), "JDBC30DataSource", String.class.getName()));
@@ -506,9 +507,9 @@ public class JdbcConnectionPoolDeployer implements ResourceDeployer<JdbcConnecti
 
                 } else if (mcfConPropKeys.containsKey(name.toUpperCase(Locale.getDefault()))) {
                     configProperties.add(new ConnectorConfigProperty(mcfConPropKeys.get(name.toUpperCase(Locale.getDefault())),
-                            adminPoolProperty.getValue() == null ? "" : adminPoolProperty.getValue(), "Some property", String.class.getName()));
+                            adminPoolProperty.getValue() == null ? "" : TranslatedConfigView.expandApplicationValue(adminPoolProperty.getValue()) , "Some property", String.class.getName()));
                 } else {
-                    driverProperties = driverProperties + "set" + escape(name) + "#" + escape(adminPoolProperty.getValue()) + "##";
+                    driverProperties = driverProperties + "set" + escape(name) + "#" + escape(TranslatedConfigView.expandApplicationValue(adminPoolProperty.getValue())) + "##";
                 }
             }
 

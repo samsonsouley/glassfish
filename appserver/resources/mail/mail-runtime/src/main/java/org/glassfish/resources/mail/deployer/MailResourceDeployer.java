@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import javax.naming.Reference;
 
 import org.glassfish.api.naming.SimpleJndiName;
+import org.glassfish.config.support.TranslatedConfigView;
 import org.glassfish.resourcebase.resources.api.ResourceConflictException;
 import org.glassfish.resourcebase.resources.api.ResourceDeployer;
 import org.glassfish.resourcebase.resources.api.ResourceDeployerInfo;
@@ -172,15 +173,15 @@ public class MailResourceDeployer extends GlobalResourceDeployer implements Reso
         org.glassfish.resources.mail.beans.MailResource mailResource
             = new org.glassfish.resources.mail.beans.MailResource(resourceInfo);
 
-        mailResource.setEnabled(Boolean.valueOf(mailResourceConfig.getEnabled()));
+        mailResource.setEnabled(Boolean.parseBoolean(mailResourceConfig.getEnabled()));
         mailResource.setStoreProtocol(mailResourceConfig.getStoreProtocol());
         mailResource.setStoreProtocolClass(mailResourceConfig.getStoreProtocolClass());
         mailResource.setTransportProtocol(mailResourceConfig.getTransportProtocol());
         mailResource.setTransportProtocolClass(mailResourceConfig.getTransportProtocolClass());
-        mailResource.setMailHost(mailResourceConfig.getHost());
-        mailResource.setUsername(mailResourceConfig.getUser());
-        mailResource.setMailFrom(mailResourceConfig.getFrom());
-        mailResource.setDebug(Boolean.valueOf(mailResourceConfig.getDebug()));
+        mailResource.setMailHost(TranslatedConfigView.expandApplicationValue(mailResourceConfig.getHost()));
+        mailResource.setUsername(TranslatedConfigView.expandApplicationValue(mailResourceConfig.getUser()));
+        mailResource.setMailFrom(TranslatedConfigView.expandApplicationValue(mailResourceConfig.getFrom()));
+        mailResource.setDebug(Boolean.parseBoolean(mailResourceConfig.getDebug()));
 
         // sets the properties
         List<Property> properties = mailResourceConfig.getProperty();

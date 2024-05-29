@@ -152,7 +152,7 @@ public class LogFilter {
 
         try {
             logFileDetailsForServer = loggingConfig.getLoggingFileDetails();
-            logFileDetailsForServer = TranslatedConfigView.getTranslatedValue(logFileDetailsForServer).toString();
+            logFileDetailsForServer = TranslatedConfigView.expandApplicationValue(logFileDetailsForServer);
             logFileDetailsForServer = new File(logFileDetailsForServer).getAbsolutePath();
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, LogFacade.ERROR_EXECUTING_LOG_QUERY, ex);
@@ -216,7 +216,7 @@ public class LogFilter {
             try {
                 // getting log file attribute value from logging.properties file
                 logFileDetailsForServer = loggingConfig.getLoggingFileDetails();
-                logFileDetailsForServer = TranslatedConfigView.getTranslatedValue(logFileDetailsForServer).toString();
+                logFileDetailsForServer = TranslatedConfigView.expandApplicationValue(logFileDetailsForServer);
                 logFileDetailsForServer = new File(logFileDetailsForServer).getAbsolutePath();
             } catch (Exception ex) {
                 LOGGER.log(Level.SEVERE, LogFacade.ERROR_EXECUTING_LOG_QUERY, ex);
@@ -278,7 +278,7 @@ public class LogFilter {
         if (targetServer.isDas()) {
             // getting log file for DAS from logging.properties and returning the same
             String logFileDetailsForServer = loggingConfig.getLoggingFileDetails();
-            logFileDetailsForServer = TranslatedConfigView.getTranslatedValue(logFileDetailsForServer).toString();
+            logFileDetailsForServer = TranslatedConfigView.expandApplicationValue(logFileDetailsForServer);
             logFileDetailsForServer = new File(logFileDetailsForServer).getAbsolutePath();
             return logFileDetailsForServer;
         } else {

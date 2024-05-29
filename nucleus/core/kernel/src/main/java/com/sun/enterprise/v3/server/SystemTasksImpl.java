@@ -182,7 +182,7 @@ public class SystemTasksImpl implements SystemTasks, PostConstruct {
                 Matcher m = p.matcher(jvmOption);
                 if (m.matches()) {
                     String name = m.group(1);
-                    String value = TranslatedConfigView.expandValue(m.group(2));
+                    String value = TranslatedConfigView.expandApplicationValue(m.group(2));
                     LOG.log(Level.FINEST, "Setting {0}={1}", new Object[] {name, value});
                     setSystemProperty(name, value);
                 }

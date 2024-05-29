@@ -71,6 +71,7 @@ import static com.sun.enterprise.deployment.util.DOLUtils.INVALID_DESC_MAPPING;
 import static java.lang.System.Logger.Level.DEBUG;
 import static java.lang.System.Logger.Level.ERROR;
 import static java.lang.System.Logger.Level.WARNING;
+import org.glassfish.config.support.TranslatedConfigView;
 
 /**
  * Superclass of all Nodes implementation
@@ -322,7 +323,7 @@ public abstract class DeploymentDescriptorNode<T extends Descriptor> implements 
         if (attributes.getLength() > 0) {
             for (int i = 0; i < attributes.getLength(); i++) {
                 String attrName = attributes.getQName(i);
-                String attrValue = attributes.getValue(i);
+                String attrValue = TranslatedConfigView.expandApplicationValue(attributes.getValue(i));
                 LOG.log(DEBUG, "With attribute {0} and value {1}", attrName, attrValue);
                 // we try the setAttributeValue first, if not processed then the setElement
                 if (!setAttributeValue(element, new XMLElement(attrName), attrValue)) {

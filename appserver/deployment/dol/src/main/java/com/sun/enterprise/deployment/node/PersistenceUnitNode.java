@@ -22,6 +22,7 @@ import com.sun.enterprise.deployment.xml.PersistenceTagNames;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.glassfish.config.support.TranslatedConfigView;
 
 import org.xml.sax.Attributes;
 
@@ -65,8 +66,8 @@ public class PersistenceUnitNode extends DeploymentDescriptorNode {
             PersistenceUnitDescriptor persistenceUnitDescriptor = (PersistenceUnitDescriptor) getDescriptor();
             String propName = attributes.getValue(
                     PersistenceTagNames.PROPERTY_NAME);
-            String propValue = attributes.getValue(
-                    PersistenceTagNames.PROPERTY_VALUE);
+            String propValue = TranslatedConfigView.expandApplicationValue(attributes.getValue(
+                    PersistenceTagNames.PROPERTY_VALUE));
             persistenceUnitDescriptor.addProperty(propName, propValue);
             return;
         }

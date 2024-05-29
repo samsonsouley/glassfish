@@ -45,6 +45,7 @@ import org.jvnet.hk2.config.TransactionFailure;
 import org.jvnet.hk2.config.types.Property;
 
 import static com.sun.appserv.connectors.internal.api.ConnectorsUtil.deriveResourceName;
+import org.glassfish.config.support.TranslatedConfigView;
 
 /**
  * @author Dapeng Hu
@@ -164,7 +165,7 @@ public class AdministeredObjectDefinitionDeployer implements ResourceDeployer<Ad
 
         @Override
         public String getValue() {
-            return value;
+            return TranslatedConfigView.expandApplicationValue(value);
         }
 
         @Override

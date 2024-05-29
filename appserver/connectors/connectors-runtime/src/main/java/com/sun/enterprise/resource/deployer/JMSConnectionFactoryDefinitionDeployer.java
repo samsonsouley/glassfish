@@ -47,6 +47,7 @@ import org.jvnet.hk2.config.TransactionFailure;
 import org.jvnet.hk2.config.types.Property;
 
 import static com.sun.appserv.connectors.internal.api.ConnectorsUtil.deriveResourceName;
+import org.glassfish.config.support.TranslatedConfigView;
 import static org.glassfish.deployment.common.JavaEEResourceType.JMSCFDDPOOL;
 
 @Service
@@ -176,7 +177,7 @@ public class JMSConnectionFactoryDefinitionDeployer implements ResourceDeployer<
 
         @Override
         public String getValue() {
-            return value;
+            return TranslatedConfigView.expandApplicationValue(value);
         }
 
         @Override

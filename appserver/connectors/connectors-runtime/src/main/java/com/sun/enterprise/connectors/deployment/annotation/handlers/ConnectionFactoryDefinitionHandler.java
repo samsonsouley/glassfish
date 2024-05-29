@@ -14,7 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
 package com.sun.enterprise.connectors.deployment.annotation.handlers;
 
 import com.sun.enterprise.deployment.ConnectionFactoryDefinitionDescriptor;
@@ -34,6 +33,7 @@ import org.glassfish.apf.AnnotationHandlerFor;
 import org.glassfish.apf.AnnotationInfo;
 import org.glassfish.apf.AnnotationProcessorException;
 import org.glassfish.apf.HandlerProcessingResult;
+import org.glassfish.config.support.TranslatedConfigView;
 import org.glassfish.deployment.common.JavaEEResourceType;
 import org.jvnet.hk2.annotations.Service;
 
@@ -45,22 +45,20 @@ import org.jvnet.hk2.annotations.Service;
 public class ConnectionFactoryDefinitionHandler extends AbstractResourceHandler {
 
     private static final ResourceAnnotationControl CTRL = new ResourceAnnotationControl(
-        ConnectionFactoryDefinition.class);
+            ConnectionFactoryDefinition.class);
 
     public ConnectionFactoryDefinitionHandler() {
     }
 
-
     @Override
     protected HandlerProcessingResult processAnnotation(AnnotationInfo ainfo, ResourceContainerContext[] rcContexts)
-        throws AnnotationProcessorException {
+            throws AnnotationProcessorException {
         ConnectionFactoryDefinition connectorFactoryDefnAn = (ConnectionFactoryDefinition) ainfo.getAnnotation();
         return processAnnotation(connectorFactoryDefnAn, ainfo, rcContexts);
     }
 
-
     protected HandlerProcessingResult processAnnotation(ConnectionFactoryDefinition connectorFactoryDefnAn,
-        AnnotationInfo aiInfo, ResourceContainerContext[] rcContexts) throws AnnotationProcessorException {
+            AnnotationInfo aiInfo, ResourceContainerContext[] rcContexts) throws AnnotationProcessorException {
         Class<?> annotatedClass = (Class<?>) aiInfo.getAnnotatedElement();
         Annotation[] annotations = annotatedClass.getAnnotations();
         boolean warClass = isAWebComponentClass(annotations);
@@ -81,11 +79,10 @@ public class ConnectionFactoryDefinitionHandler extends AbstractResourceHandler 
         return getDefaultProcessedResult();
     }
 
-
-    private boolean isDefinitionAlreadyPresent(Set<ResourceDescriptor> cfdDescs,  ConnectionFactoryDefinitionDescriptor desc) {
-        boolean result = false ;
-        for(ResourceDescriptor descriptor : cfdDescs){
-            if(descriptor.equals(desc)){
+    private boolean isDefinitionAlreadyPresent(Set<ResourceDescriptor> cfdDescs, ConnectionFactoryDefinitionDescriptor desc) {
+        boolean result = false;
+        for (ResourceDescriptor descriptor : cfdDescs) {
+            if (descriptor.equals(desc)) {
                 result = true;
                 break;
             }
@@ -96,7 +93,7 @@ public class ConnectionFactoryDefinitionHandler extends AbstractResourceHandler 
     private void merge(Set<ResourceDescriptor> cfdDescs, ConnectionFactoryDefinition defn) {
 
         for (ResourceDescriptor orgDesc : cfdDescs) {
-            ConnectionFactoryDefinitionDescriptor desc = (ConnectionFactoryDefinitionDescriptor)orgDesc;
+            ConnectionFactoryDefinitionDescriptor desc = (ConnectionFactoryDefinitionDescriptor) orgDesc;
             if (desc.getName().equals(defn.name())) {
 
                 if (desc.getDescription() == null) {
@@ -154,7 +151,7 @@ public class ConnectionFactoryDefinitionHandler extends AbstractResourceHandler 
         desc.setMetadataSource(MetadataSource.ANNOTATION);
 
         desc.setName(defn.name());
-        desc.setResourceAdapter(defn.resourceAdapter());
+        desc.setResourceAdapter(TranslatedConfigView.expandApplicationValue(defn.resourceAdapter()));
         desc.setInterfaceName(defn.interfaceName());
         desc.setTransactionSupport(defn.transactionSupport().toString());
         desc.setMaxPoolSize(defn.maxPoolSize());
@@ -175,7 +172,7 @@ public class ConnectionFactoryDefinitionHandler extends AbstractResourceHandler 
                     if (index > 0 && index < property.length() - 1) {
                         String name = property.substring(0, index);
                         String value = property.substring(index + 1);
-                        properties.put(name.trim(), value.trim());
+                        properties.put(name.trim(), TranslatedConfigView.expandApplicationValue(value.trim()));
                     }
                 }
             }

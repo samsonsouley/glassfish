@@ -42,6 +42,7 @@ import com.sun.enterprise.deployment.JMSDestinationDefinitionDescriptor;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
+import org.glassfish.config.support.TranslatedConfigView;
 
 @Service
 @ResourceDeployerInfo(JMSDestinationDefinitionDescriptor.class)
@@ -157,7 +158,7 @@ public class JMSDestinationDefinitionDeployer implements ResourceDeployer<JMSDes
 
         @Override
         public String getValue() {
-            return value;
+            return TranslatedConfigView.expandApplicationValue(value);
         }
 
         @Override
