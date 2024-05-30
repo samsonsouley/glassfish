@@ -181,7 +181,7 @@ public class MailResourceDeployer extends GlobalResourceDeployer implements Reso
         mailResource.setMailHost(TranslatedConfigView.expandApplicationValue(mailResourceConfig.getHost()));
         mailResource.setUsername(TranslatedConfigView.expandApplicationValue(mailResourceConfig.getUser()));
         mailResource.setMailFrom(TranslatedConfigView.expandApplicationValue(mailResourceConfig.getFrom()));
-        mailResource.setDebug(Boolean.parseBoolean(mailResourceConfig.getDebug()));
+        mailResource.setDebug(Boolean.parseBoolean(TranslatedConfigView.expandApplicationValue(mailResourceConfig.getDebug())));
 
         // sets the properties
         List<Property> properties = mailResourceConfig.getProperty();

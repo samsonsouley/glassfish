@@ -278,7 +278,7 @@ public class LogFilter {
         if (targetServer.isDas()) {
             // getting log file for DAS from logging.properties and returning the same
             String logFileDetailsForServer = loggingConfig.getLoggingFileDetails();
-            logFileDetailsForServer = TranslatedConfigView.expandApplicationValue(logFileDetailsForServer);
+            logFileDetailsForServer = TranslatedConfigView.getTranslatedValue(logFileDetailsForServer).toString();
             logFileDetailsForServer = new File(logFileDetailsForServer).getAbsolutePath();
             return logFileDetailsForServer;
         } else {
